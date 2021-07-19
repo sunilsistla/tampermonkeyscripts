@@ -318,7 +318,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="control-label">Total amount paid</div>
+					<div class="control-label">Total amount paid <i><small>(excluding GST)</small></i></div>
 					<div>
 						<input class="form-control" type="number" value="0" id="${getId('amount')}" />
 					</div>
