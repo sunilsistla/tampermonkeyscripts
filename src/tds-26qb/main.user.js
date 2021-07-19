@@ -2,8 +2,8 @@
 // @name         TDS 26QB
 // @description  Autofills TDS form 26QB.
 // @author       sunilkumar.sistla@gmail.com
-// @namespace    sunilsistla/tds
-// @version      0.1
+// @namespace    ssk/tds
+// @version      3
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet*
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
@@ -14,9 +14,10 @@
 	'use strict';
 	// Your code here...
 	var configs;
+	var delayInterval = 50;
 
 	function isValidProfile(profile) {
-		return !!profile.name;
+		return !!profile.name && !!profile.purchaser.PAN && !!profile.seller.PAN;
 	}
 
 	function formatNumber(num) {
@@ -54,23 +55,21 @@
 
 	async function delay(ms) {
 		await new Promise((r) => {
-			setTimeout(() => {
-				r(true);
-			}, ms);
+			setTimeout(() => r(true), ms);
 		});
 	}
 
 	async function clickElement(element) {
 		element.focus();
 		element.click();
-		await delay(200);
+		await delay(delayInterval);
 	}
 
 	async function setInputElementValue(element, value) {
 		clickElement(element);
-		await delay(200);
+		await delay(delayInterval);
 		element.value = value === undefined || value === null ? '' : value;
-		await delay(500);
+		await delay(delayInterval);
 		element.dispatchEvent(new Event('change'));
 		element.blur();
 	}
@@ -100,12 +99,6 @@
 		var sellerPANElement = document.getElementById(SELECTOR.sellerPAN);
 		await setInputElementValue(sellerPANElement, config.seller.PAN);
 		await setInputElementValue(document.querySelector(SELECTOR.sellerPANConfirmation), config.seller.PAN);
-
-		purchaserPANElement.focus();
-		clickElement(purchaserPANElement);
-		await delay(500);
-		sellerPANElement.focus();
-		clickElement(sellerPANElement);
 	}
 
 	async function fillStep2(config) {
@@ -234,7 +227,8 @@
 	}
 
 	async function fillForm(config) {
-		await clickElement(document.querySelector('.steps ul[role="tablist"] li.first[role="tab"]'));
+		await clickElement(document.querySelector('.steps ul[role="tablist"] li.first[role="tab"] a'));
+		await delay(1000);
 		await fillStep1(config);
 		await clickAction('next');
 		await fillStep2(config);
@@ -294,13 +288,18 @@
 		}
 
 		// Form
+		var today = new Date();
+		var todayString = [today.getDate(), today.getMonth() + 1, today.getUTCFullYear()]
+			.map(String)
+			.map((x) => `00${x}`.substr(-(x.length >= 2 ? x.length : 2)))
+			.join('-');
 		userInputForm.insertAdjacentHTML(
 			'beforeEnd',
-			`<form onsubmit="javascript:void(0)">
+			`<form id="${getId('form')}" onsubmit="javascript:void(0)">
 				<div class="form-group">
 					<div class="control-label">Select profile</div>
 					<div>
-						<select class="form-control" id="${getId('profile')}">
+						<select value="0" required class="form-control" id="${getId('profile')}">
 							${configs.map((x, i) => `<option value="${i}">${x.name}</option>`)}
 						</select>
 					<div>
@@ -311,57 +310,72 @@
 				<div class="form-group">
 					<div class="control-label">Type of payment</div>
 					<div>
-						<select class="form-control" id="${getId('type')}">
-							<option value="Lumpsum">Lumpsum</option>
+						<select required class="form-control" id="${getId('type')}">
 							<option value="Installments">Installments</option>
+							<option value="Lumpsum">Lumpsum</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="control-label">Total amount paid <i><small>(excluding GST)</small></i></div>
 					<div>
-						<input class="form-control" type="number" value="0" id="${getId('amount')}" />
+						<input min="1" required class="form-control" type="number" id="${getId('amount')}" />
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="control-label">Date of Payment</div>
 					<div>
-						<input class="form-control" type="date" id="${getId('date')}" />
+						<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
+						placeholder="${todayString}" id="${getId('date')}" />
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="control-label">Date of Tax<div>
-					<input class="form-control" type="date" id="${getId('tax-date')}" />
-				</div>
-				<div class="form-group">
-					<div class="control-label">Payment Mode</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label"><input class="form-check-input" type="radio" name="${getId(
-							'mode',
-						)}" value="online" checked> Online</label>
-						<label class="form-check-label"><input class="form-check-input" type="radio" name="${getId(
-							'mode',
-						)}" value="offline"> Offline</label>
-					</div>
+					<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
+					placeholder="${todayString}" value="${todayString}" id="${getId('tax-date')}" />
 				</div>
 				<div class="form-group text-right" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eaeded">
-					<input id="${getId('fill-form')}" type="button" class="btn btn-primary" value="Fill form" />
+					<input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Fill form" />
 				</div>
 			</form>`,
 		);
 
-		var profileEle = document.getElementById(getId('profile'));
-		var profileEleHelp = document.getElementById(getId('profile-description'));
-		profileEle.addEventListener('change', (event) => {
+		// elements
+		var userForm = document.getElementById(getId('form'));
+		var profileSelect = document.getElementById(getId('profile'));
+		var profileHelpSpan = document.getElementById(getId('profile-description'));
+		var paymentTypeSelect = document.getElementById(getId('type'));
+		var paymentAmountInput = document.getElementById(getId('amount'));
+		var paymentDateInput = document.getElementById(getId('date'));
+		var paymentTaxDateInput = document.getElementById(getId('tax-date'));
+		var formSubmitBtn = document.getElementById(getId('fill-form'));
+
+		// event handlers
+		profileSelect.addEventListener('change', (event) => {
 			var profile = configs[parseInt(event.target.value)];
-			profileEleHelp.innerHTML = '';
-			profileEleHelp.insertAdjacentHTML('beforeEnd', profile.property.name);
+			profileHelpSpan.innerHTML = '';
+			profileHelpSpan.insertAdjacentHTML('beforeEnd', profile.property.name);
 		});
-		profileEle.dispatchEvent(new Event('change'));
-		document.getElementById(getId('fill-form')).addEventListener('click', () => {
-			var index = parseInt(document.getElementById('tds_helper_payment_profile').value);
-			fillForm(configs[index]);
+		formSubmitBtn.addEventListener('click', async function () {
+			if (!userForm.checkValidity()) {
+				userForm.reportValidity();
+				return;
+			}
+			formSubmitBtn.disabled = true;
+			var profile = configs[parseInt(profileSelect.value)];
+			var payment = {
+				type: paymentTypeSelect.value.trim(),
+				dateOfPayment: paymentDateInput.value.trim(),
+				dateOfTax: paymentTaxDateInput.value.trim(),
+				amount: parseFloat(paymentAmountInput.value),
+			};
+			profile.payment = payment;
+			await fillForm(profile);
+			formSubmitBtn.disabled = false;
 		});
+
+		// init
+		profileSelect.dispatchEvent(new Event('change'));
 	}
 
 	setTimeout(() => {

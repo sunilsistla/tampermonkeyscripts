@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         TDS 26QB Profiles
-// @namespace    sunilsistla/tds
+// @namespace    ssk/tds
 // @version      1
 // @description  TDS 26QB profiles
 // @author       sunilkumar.sistla@gmail.com
