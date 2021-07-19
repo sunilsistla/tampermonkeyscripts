@@ -5,8 +5,8 @@
 // @namespace    sunilsistla/tds
 // @version      0.1
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet*
-// @downloadUrl  https://tampermonkey.z13.web.core.windows.net/tds-26qb/main.user.js
-// @updateUrl    https://tampermonkey.z13.web.core.windows.net/tds-26qb/main.user.js
+// @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
+// @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @grant        none
 // ==/UserScript==
 
@@ -244,7 +244,7 @@
 	}
 
 	async function createUserInputForm() {
-		const getResourceLink = (resourcePath) => `https://tampermonkey.z13.web.core.windows.net/tds-26qb/${resourcePath}`;
+		const getResourceLink = (resourcePath) => `https://tmscripts-ssk.netlify.app/tds-26qb/${resourcePath}`;
 		var getId = (...id) => ['tm_script_tds_payment', ...id].filter(Boolean).join('_');
 
 		// Wrapper
