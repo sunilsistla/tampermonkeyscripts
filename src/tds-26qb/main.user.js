@@ -3,11 +3,13 @@
 // @description  Autofills TDS form 26QB.
 // @author       sunilkumar.sistla@gmail.com
 // @namespace    ssk/tds
-// @version      3
+// @version      0.1
+// @build		 1
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet*
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @grant        none
+// @history		 0.1 - Read from profile, auto fill the form
 // ==/UserScript==
 
 (function () {
