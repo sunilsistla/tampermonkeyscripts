@@ -1,4 +1,4 @@
-function onReady() {
+(function onReady() {
 	var META_TAGS = `
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +18,4 @@ function onReady() {
 	document.head.insertAdjacentHTML('afterbegin', META_TAGS);
 	document.head.insertAdjacentHTML('beforeend', STYLES);
 	document.body.insertAdjacentHTML('beforeend', SCRIPTS);
-}
-
-document.addEventListener('load', onReady);
+})();
