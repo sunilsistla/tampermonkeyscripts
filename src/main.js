@@ -19,8 +19,8 @@
 	document.head.insertAdjacentHTML('beforeend', STYLES);
 	document.body.insertAdjacentHTML('beforeend', SCRIPTS);
 	
-	if(window.location.href !== window.location.orgin) {
-		document.body.insertAdjacentHTML('afterbegin', '<h4 class="container-xxl"><a href="/">Home</a></h4><hr />');
+	if(window.location.href !== window.location.origin + '/' && window.location.href !== window.location.origin) {
+		document.body.insertAdjacentHTML('afterbegin', '<h4 class="container"><a href="/">Home</a></h4><hr />');
 	}
 	document.body.insertAdjacentHTML('afterbegin', '<p><br /></p>');
 })();
