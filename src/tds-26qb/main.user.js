@@ -3,8 +3,8 @@
 // @description  Autofills TDS form 26QB.
 // @author       sunilkumar.sistla@gmail.com
 // @namespace    ssk/tds
-// @version      0.1
-// @build		 1
+// @version      0.2
+// @build	 2
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet*
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
@@ -236,7 +236,7 @@
 		await fillStep2(config);
 		await clickAction('next');
 		await fillStep3(config);
-		await clickAction('next');
+		alert('Form has been flled. Check your details, click "next" and proceed to payment.');
 	}
 
 	async function createUserInputForm() {
