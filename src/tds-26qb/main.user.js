@@ -334,7 +334,7 @@
 				<div class="form-group">
 					<div class="control-label">Date of Tax<div>
 					<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
-					placeholder="${todayString}" value="${todayString}" id="${getId('tax-date')}" />
+					placeholder="${todayString}" id="${getId('tax-date')}" />
 				</div>
 				<div class="form-group text-right" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eaeded">
 					<input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Fill form" />
@@ -357,6 +357,9 @@
 			var profile = configs[parseInt(event.target.value)];
 			profileHelpSpan.innerHTML = '';
 			profileHelpSpan.insertAdjacentHTML('beforeEnd', profile.property.name);
+		});
+		paymentDateInput.addEventListener('change', (event) => {
+			paymentTaxDateInput.value = event.target.value;
 		});
 		formSubmitBtn.addEventListener('click', async function () {
 			if (!userForm.checkValidity()) {
