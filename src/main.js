@@ -17,5 +17,6 @@
 
 	document.head.insertAdjacentHTML('afterbegin', META_TAGS);
 	document.head.insertAdjacentHTML('beforeend', STYLES);
+	document.body.insertAdjacentHTML('afterbegin', '<p><br /></p>');
 	document.body.insertAdjacentHTML('beforeend', SCRIPTS);
 })();
