@@ -1,8 +1,27 @@
 (function onReady() {
 	document.body.style.display = 'none';
+	var SPINNER_HTML = `
+	<div id="main-loader" style="display: flex; justify-content: center; vertical-align: center;">
+	<svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+    <path d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+      <animateTransform 
+         attributeName="transform" 
+         attributeType="XML" 
+         type="rotate"
+         dur="1s" 
+         from="0 50 50"
+         to="360 50 50" 
+         repeatCount="indefinite" />
+  </path>
+</svg>
+</div>
+	`;
+	
     	setTimeout(function() {
         	document.body.style.display = 'block';
-		console.log('showing contents');
+		var loadingEle = document.getElementById('main-loader');
+		loadingEle && loadingEle.remove();
     	}, 2000);
 	var META_TAGS = `
     <meta charset="utf-8">
@@ -22,6 +41,7 @@
 
 	document.head.insertAdjacentHTML('afterbegin', META_TAGS);
 	document.head.insertAdjacentHTML('beforeend', STYLES);
+	document.body.insertAdjacentHTML('afterbegin', SPINNER_HTML);
 	document.body.insertAdjacentHTML('beforeend', SCRIPTS);
 	
 	if(window.location.href !== window.location.origin + '/' && window.location.href !== window.location.origin) {
