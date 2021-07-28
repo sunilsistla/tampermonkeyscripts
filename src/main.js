@@ -1,7 +1,4 @@
 (function onReady() {
-	document.body.style = (document.body.style || {});
-	document.body.style.display = 'none';
-	
 	var META_TAGS = `
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
