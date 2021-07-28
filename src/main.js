@@ -43,11 +43,11 @@
 	document.body.insertAdjacentHTML('afterbegin', '<p><br /></p>');
 	
 	const ROOT = document.getElementById('root');
-    	setTimeout(function() {
+	
+	window.addEventListener("load", function(){
 		ROOT.classList.add('ready');
 		var spinner = document.getElementById('main-loader');
 		spinner.classList.remove('init');
-		
-    	}, 1000);
+	});
 	
 })();
