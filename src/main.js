@@ -13,8 +13,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script>setTimeout(function() {
-        document.body.style.display = 'unset';
+    <script type="text/javascript">setTimeout(function() {
+        document.body.style.display = 'block';
+	console.debug('showing contents');
     }, 1000);</script>
 </div>
 `;
