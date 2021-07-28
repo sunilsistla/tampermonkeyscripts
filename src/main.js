@@ -1,5 +1,4 @@
 (function onReady() {
-	document.body.style.display = 'none';
 	
 	var META_TAGS = `
     <meta charset="utf-8">
@@ -18,6 +17,7 @@
 </div>
 `;
 
+	Object.assign(document.body.style, {display: 'none'});
 	document.head.insertAdjacentHTML('afterbegin', META_TAGS);
 	document.head.insertAdjacentHTML('beforeend', STYLES);
 	document.body.insertAdjacentHTML('beforeend', SCRIPTS);
