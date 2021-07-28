@@ -1,5 +1,9 @@
 (function onReady() {
 	document.body.style.display = 'none';
+    	setTimeout(function() {
+        	document.body.style.display = 'block';
+		console.log('showing contents');
+    	}, 2000);
 	var META_TAGS = `
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,13 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <script type="text/javascript">
-    	setTimeout(function() {
-        	document.body.style.display = 'block';
-		console.log('showing contents');
-    	}, 1000);
-	console.log('register');
-    </script>
 </div>
 `;
 
