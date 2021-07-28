@@ -45,8 +45,8 @@
 	const ROOT = document.getElementById('root');
     	setTimeout(function() {
 		ROOT.style.display = 'block';
-		var loadingEle = document.getElementById('main-loader');
-		loadingEle && loadingEle.remove();
+		var spinner = document.getElementById('main-loader');
+		spinner.style.display = 'none';
     	}, 1000);
 	
 })();
