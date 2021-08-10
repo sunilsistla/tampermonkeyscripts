@@ -3,18 +3,26 @@
 // @description  Autofills TDS form 26QB.
 // @author       sunilkumar.sistla@gmail.com
 // @namespace    ssk/tds
-// @version      0.3
-// @build	 3
-// @match        https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet*
+// @version      0.4
+// @build        4
+// @include      /.*/
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
-// @grant        none
-// @history		 0.1 - Read from profile, auto fill the form
+// @grant        GM_registerMenuCommand
+// @run-at       document-end
 // ==/UserScript==
 
 (function () {
 	'use strict';
 	// Your code here...
+
+  GM_registerMenuCommand('Help', function() {
+    window.open('https://tmscripts-ssk.netlify.app/tds-26qb/' ,'_blank');
+  });
+  
+  if(window.location.href.indexOf('https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet') === -1) {
+    return;
+  }
 	var configs;
 	var delayInterval = 50;
 
