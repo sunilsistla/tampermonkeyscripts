@@ -1,14 +1,12 @@
 // ==UserScript==
 // @name         TDS 26QB Profiles
 // @namespace    ssk/tds
-// @version      0.1
 // @build      	 1
 // @description  TDS 26QB profiles
 // @author       sunilkumar.sistla@gmail.com
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew*
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/data.user.js
 // @grant        none
-// @history      0.1 - add base profile template for individual
 // ==/UserScript==
 
 const PROFILES = [
