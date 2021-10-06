@@ -18,7 +18,7 @@ const PROFILES = [
 		multiplePurchasers: 'No',
 		multipleSellers: 'No',
 		purchaser: {
-			name: 'Sunil Sistla',
+			name: 'Sunil Kumar Sistla',
 			PAN: 'DSYPS6938A',
 			address: {
 				line1: '1-9-485/98, 1 Floor',
