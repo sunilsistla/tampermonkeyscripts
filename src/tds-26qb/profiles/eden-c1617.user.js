@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TDS 26QB Profiles
 // @namespace    ssk/tds
-// @version      2
+// @version      3
 // @description  TDS 26QB profiles
 // @author       sunilkumar.sistla@gmail.com
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew*
