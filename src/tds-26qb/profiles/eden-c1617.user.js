@@ -5,6 +5,8 @@
 // @description  TDS 26QB profiles
 // @author       sunilkumar.sistla@gmail.com
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew*
+// @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/profiles/eden-c1617.user.js
+// @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/profiles/eden-c1617.user.js
 // @grant        none
 // ==/UserScript==
 
