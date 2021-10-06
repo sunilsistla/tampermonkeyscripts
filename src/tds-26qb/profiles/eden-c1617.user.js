@@ -42,7 +42,7 @@ const PROFILES = [
 				state: 'Karnataka',
 				pin: '560055',
 			},
-			email: 'enquiry@brigadegrop.com',
+			email: 'enquiry@brigadegroup.com',
 			phone: '8041379200',
 		},
 		property: {
