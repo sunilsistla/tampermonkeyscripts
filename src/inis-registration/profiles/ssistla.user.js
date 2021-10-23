@@ -40,20 +40,20 @@ const PROFILES = [
 		name: 'Sunil Sistla', // Unique name to easily identify a profile
         category: Category.All,
         subCategory: SubCategory.All,
-        gnibCardNumber: 981597,
-        salutation: Salutation.Mr,
+        gnibCardNumber: '981597',
+        travelDocumentNumber: 'V8375932', // Your travel document number
+        travelDocumentReason: TravelDocumentReason.None,
+        isFamilyApplication: FamilyApplication.Yes, // Yes/ No
+        familyMembersCount: 2,
         applicant: {
+            salutation: Salutation.Mr,
             givenName: 'Sunil Kumar',
             middleName: '',
             surName: 'Sistla',
             dob: '18/08/1991', // DD/MM/YYYY format
+            nationality: 'India, Republic of',
             email: 'sunilkumar.sistla@gmail.com',
-            isFamilyApplication: FamilyApplication.Yes, // Yes/ No
-            familyMembersCount: 2,
-            travelDocumentNumber: 'V8375932', // Your travel document number
-            travelDocumentReason: TravelDocumentReason.None,
         },
-        nationality: 'India, Republic of',
 	},
 ];
 

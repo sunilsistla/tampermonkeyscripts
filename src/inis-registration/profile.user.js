@@ -35,26 +35,27 @@ const TravelDocumentReason = {
 };
 
 const PROFILES = [
-    {
-        name: 'Profile 1', // Unique name to easily identify a profile
+	{
+		name: 'Profile 1', // Unique name to easily identify a profile
         category: Category.All,
         subCategory: SubCategory.All,
-        gnibCardNumber: 000000,
-        salutation: Salutation.Mr,
+        gnibCardNumber: 'xxxxxx',
+        travelDocumentNumber: '', // Your travel document number
+        travelDocumentReason: TravelDocumentReason.None,
+        isFamilyApplication: FamilyApplication.No, // Yes/ No
+        familyMembersCount: 1,
         applicant: {
+            salutation: Salutation.Mr,
             givenName: '',
             middleName: '',
             surName: '',
-            dob: '', // DD/MM/YYYY format
+            dob: '31/12/2001', // December 31, 2001 DD/MM/YYYY format
+            nationality: '', // Pick this from website
             email: '',
-            isFamilyApplication: FamilyApplication.No, // Yes/ No
-            familyMembersCount: 0,
-            travelDocumentNumber: '', // Your travel document number
-            travelDocumentReason: TravelDocumentReason.None,
         },
-        nationality: '',
-    },
+	},
 ];
+
 
 /* DONOT CHANGE ANYTHING BELOW THIS LIINE */
 (function () {

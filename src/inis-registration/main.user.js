@@ -30,13 +30,13 @@
     function isValidProfile(profile) {
         console.log((profile && profile.name) || 'Unknown Profile', profile);
         return !!profile.name &&
-            !!profile.nationality &&
             !!profile.applicant &&
             !!profile.applicant.givenName &&
             !!profile.applicant.surName &&
             !!profile.applicant.dob &&
+            !!profile.applicant.nationality &&
             !!profile.applicant.email &&
-            (!!profile.applicant.travelDocumentNumber || !!profile.applicant.travelDocumentReason);
+            (!!profile.travelDocumentNumber || !!profile.travelDocumentReason);
     }
 
     async function delay(ms) {
@@ -141,8 +141,8 @@
 				<div class="form-group">
 					<div class="control-label">Preferred date</div>
 					<div>
-						<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
-						placeholder="${todayString}" id="${getId('date')}" />
+						<input pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
+						placeholder="${todayString}" id="${getId('preferred-date')}" />
 					</div>
 				</div>
 				<div class="form-group text-right" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eaeded">
@@ -154,6 +154,7 @@
         // elements
         var userForm = document.getElementById(getId('form'));
         var profileSelect = document.getElementById(getId('profile'));
+        var dateToSelect = document.getElementById(getId('preferred-date'));
         var profileHelpSpan = document.getElementById(getId('profile-description'));
         var formSubmitBtn = document.getElementById(getId('fill-form'));
 
@@ -161,7 +162,11 @@
         profileSelect.addEventListener('change', (event) => {
             var profile = configs[parseInt(event.target.value)];
             profileHelpSpan.innerHTML = '';
-            profileHelpSpan.insertAdjacentHTML('beforeEnd', `${profile.applicant.givenName}, ${profile.applicant.surName}`);
+            profileHelpSpan.insertAdjacentHTML('beforeEnd',
+                `${profile.applicant.givenName}, ${profile.applicant.surName}<br/>
+            ${profile.applicant.gnib}, ${profile.applicant.surName}<br/>
+            ${profile.applicant.travelDocumentNumber || 'No Travel Document'}
+            `);
         });
         formSubmitBtn.addEventListener('click', async function () {
             if (!userForm.checkValidity()) {
