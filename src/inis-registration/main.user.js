@@ -166,7 +166,10 @@
                 `${profile.applicant.givenName}, ${profile.applicant.surName} | ${profile.gnibCardNumber} | ${profile.travelDocumentNumber || 'No Travel Document'}`
             );
         });
-        formSubmitBtn.addEventListener('click', async function () {
+        formSubmitBtn.addEventListener('click', async function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
             if (!userForm.checkValidity()) {
                 userForm.reportValidity();
                 return;
