@@ -28,6 +28,7 @@
     var delayInterval = 50;
 
     function isValidProfile(profile) {
+        console.log((profile && profile.name) || 'Unknown Profile', profile);
         return !!profile.name &&
             !!profile.nationality &&
             !!profile.applicant &&
@@ -35,7 +36,7 @@
             !!profile.applicant.surName &&
             !!profile.applicant.dob &&
             !!profile.applicant.email &&
-            !!(profile.travelDocumentNumber || profile.travelDocumentReason);
+            (!!profile.travelDocumentNumber || !!profile.travelDocumentReason);
     }
 
     async function delay(ms) {
