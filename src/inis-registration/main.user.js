@@ -79,7 +79,7 @@
             backgroundColor: 'white',
             borderTop: '1px solid #eaeded',
             boxShadow: '0 1px 1px 0 rgb(0 28 36 / 30%), 1px 1px 1px 0 rgb(0 28 36 / 15%), -1px 1px 1px 0 rgb(0 28 36 / 15%)',
-            right: '20px',
+            right: '40px',
             top: '120px',
             width: '280px',
             padding: '10px',
