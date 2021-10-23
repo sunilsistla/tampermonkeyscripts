@@ -4,10 +4,11 @@
 // @author       sunilkumar.sistla@gmail.com
 // @namespace    ssk/inis
 // @version      1
-// @include      /.*/
+// @match        https://burghquayregistrationoffice.inis.gov.ie/Website/AMSREG/AMSRegWeb.nsf/*
 // @downloadUrl  https://tmscripts-ssk.netlify.app/inis-registration/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/inis-registration/main.user.js
-// @grant        GM_registerMenuCommand
+// @grant        GM_setValue
+// @grant        GM_getValue
 // @run-at       document-end
 // ==/UserScript==
 
@@ -15,20 +16,11 @@
     'use strict';
     // Your code here...
 
-    GM_registerMenuCommand('Help', function () {
-        window.open('https://tmscripts-ssk.netlify.app/inis-registration/', '_blank');
-    });
-
-    const domain = 'burghquayregistrationoffice.inis.gov.ie';
-
-    if (window.location.href.indexOf(domain) === -1) {
-        return;
-    }
     var configs;
     var delayInterval = 50;
+    const GM_KEY = 'ssk-inis-registration';
 
     function isValidProfile(profile) {
-        console.log((profile && profile.name) || 'Unknown Profile', profile);
         return !!profile.name &&
             !!profile.applicant &&
             !!profile.applicant.givenName &&
@@ -46,11 +38,26 @@
         });
     }
 
+    async function waitForFunction(cb, name) {
+        await new Promise((r) => {
+            let attempt = 1;
+            var handle = setInterval(() => {
+                if (cb()) {
+                    clearInterval(handle);
+                    r(true);
+                    return;
+                }
+                console.log(name, 'failed attempt', attempt++);
+            }, 200)
+        });
+    }
+
     async function clickElement(element) {
         element.focus();
         element.click();
         await delay(delayInterval);
     }
+
 
     async function setInputElementValue(element, value, config = { click: true }) {
         config.click && clickElement(element);
@@ -61,8 +68,32 @@
         element.blur();
     }
 
-    async function lookForAppointment(config) {
-        await clickElement(document.querySelector('#btLook4App'));
+    async function bookAppointment(config) {
+        const SELECTOR = {
+            lookForAppts: 'btLook4App',
+            choice: 'AppSelectChoice',
+            findAvailableAppts: 'btSrch4Apps',
+            options: 'dvAppOptions',
+            appDate: 'Appdate',
+            submit: 'Submit',
+        };
+
+        await clickElement(document.getElementById(SELECTOR.lookForAppts));
+        if (config.custom.preferredDate) {
+            await setInputElementValue(document.getElementById(SELECTOR.choice, 'D'));
+            const prefDt = config.custom.preferredDate.replaceAll('-', '/');
+            await setInputElementValue(document.getElementById(SELECTOR.appDate), prefDt, { click: false });
+        } else {
+            await setInputElementValue(document.getElementById(SELECTOR.choice), 'S');
+        }
+
+        await clickElement(document.getElementById(SELECTOR.findAvailableAppts));
+        await waitForFunction(() => {
+            return document.getElementById(SELECTOR.options).querySelectorAll('button').length;
+        }, 'looking for slots');
+
+        await clickElement(document.getElementById(SELECTOR.options).querySelector('button'));
+        await clickElement(document.getElementById(SELECTOR.submit));
     }
 
     async function fillForm(config) {
@@ -116,6 +147,11 @@
         } else {
             await setInputElementValue(document.getElementById(SELECTOR.noDocumentReason), config.travelDocumentReason);
         }
+
+        window.scrollTo(0, document.body.getBoundingClientRect().height - 300);
+        await delay(100);
+
+        await bookAppointment(config);
     }
 
     async function createUserInputForm() {
@@ -196,8 +232,15 @@
 						placeholder="${todayString}" id="${getId('preferred-date')}" />
 					</div>
 				</div>
+				<div class="form-group" style="margin-bottom: 10px">
+                    <div class="form-check">
+                        <label class="form-check-label" style="font-size: 13px; font-weight: normal;">
+                            <input class="form-check-input" type="checkbox" value="" id="${getId('retry')}"> Retry until booked
+                        </label>
+                    </div>
+				</div>
 				<div class="form-group text-right" style="margin-top: 10px; margin-bottom: 0; padding-top: 10px; border-top: 1px solid #eaeded">
-					<input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Fill form" />
+                    <input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Book" />
 				</div>
 			</form>`,
         );
@@ -208,6 +251,7 @@
         var dateToSelect = document.getElementById(getId('preferred-date'));
         var profileHelpSpan = document.getElementById(getId('profile-description'));
         var formSubmitBtn = document.getElementById(getId('fill-form'));
+        var shouldRetry = document.getElementById(getId('retry'));
 
         // event handlers
         profileSelect.addEventListener('change', (event) => {
@@ -217,6 +261,7 @@
                 `${profile.applicant.givenName}, ${profile.applicant.surName} | ${profile.gnibCardNumber} | ${profile.travelDocumentNumber || 'No Travel Document'}`
             );
         });
+
         formSubmitBtn.addEventListener('click', async function (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -229,7 +274,15 @@
             var profile = configs[parseInt(profileSelect.value)];
             profile.custom = {
                 preferredDate: dateToSelect.value,
+                retry: !!shouldRetry.checked,
             };
+
+            GM_setValue(GM_KEY, {
+                retry: !!shouldRetry.checked,
+                preferredDate: dateToSelect.value,
+                date: new Date().toISOString().substr(0, 10),
+                gnibCardNumber: profile.gnibCardNumber,
+            });
 
             await fillForm(profile);
             formSubmitBtn.disabled = false;
@@ -239,10 +292,60 @@
         profileSelect.dispatchEvent(new Event('change'));
     }
 
-    setTimeout(() => {
+    async function redirectToFormOnFailure() {
+        const actionResult = document.getElementById('ActionResult');
+        if (!actionResult || !actionResult.classList.contains('failureResult')) {
+            return false;
+        }
+        console.log('failed attempt')
+        const retryConfig = GM_getValue(GM_KEY);
+        GM_getValue(GM_KEY, { ...retryConfig, status: 'failure' });
+        await clickElement(document.querySelector('.errButtBack button'));
+        return true;
+    }
+
+    async function autoFillForm() {
+        if (!document.getElementById('Category')) {
+            return false;
+        }
+
+        console.log('auto fill form and book');
+        const config = GM_getValue(GM_KEY);
+        GM_setValue(GM_KEY, { ...config, attempt: (config.attempt || 0) + 1 });
+
+        const profile = configs.find(x => x.gnibCardNumber === config.gnibCardNumber);
+        if (!profile) {
+            console.log(config.gnibCardNumber, 'profile is not found. stopping now.');
+            GM_setValue(GM_KEY, null);
+            return;
+        }
+        profile.custom = {
+            preferredDate: config.preferredDate,
+            retry: config.retry,
+        };
+        await fillForm(profile);
+    }
+
+    setTimeout(async () => {
         document.INIS = document.INIS || {};
         document.INIS.RegistrationForm = document.INIS.RegistrationForm || {};
         configs = document.INIS.RegistrationForm.profiles;
-        createUserInputForm();
+        await createUserInputForm();
+
+        const retryConfig = GM_getValue(GM_KEY);
+        // retry only for a day
+        if (retryConfig.date !== new Date().toISOString().substr(0, 10)) {
+            console.log(retryConfig.date, 'expired. stopping retry now.');
+            GM_setValue(GM_KEY, { ...retryConfig, retry: false });
+            return;
+        }
+        if (!retryConfig || !retryConfig.retry) {
+            console.log('auto retry is disabled');
+            return;
+        }
+        // act on a page only if the previous page is not recognized
+        let isRecognized = false;
+        isRecognized || (isRecognized == await redirectToFormOnFailure());
+        isRecognized ||(isRecognized == await autoFillForm());
     }, 500);
 })();
