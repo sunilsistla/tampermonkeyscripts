@@ -36,7 +36,8 @@
             !!profile.applicant.dob &&
             !!profile.applicant.nationality &&
             !!profile.applicant.email &&
-            (!!profile.travelDocumentNumber || !!profile.travelDocumentReason);
+            (!!profile.travelDocumentNumber || !!profile.travelDocumentReason) &&
+            (profile.isFamilyApplication === 'No' || (profile.isFamilyApplication === 'Yes' && !!profile.familyMembersCount));
     }
 
     async function delay(ms) {
@@ -51,8 +52,8 @@
         await delay(delayInterval);
     }
 
-    async function setInputElementValue(element, value) {
-        clickElement(element);
+    async function setInputElementValue(element, value, config = { click: true }) {
+        config.click && clickElement(element);
         await delay(delayInterval);
         element.value = value === undefined || value === null ? '' : value;
         await delay(delayInterval);
@@ -60,11 +61,61 @@
         element.blur();
     }
 
-    async function lookForAppointment() {
+    async function lookForAppointment(config) {
         await clickElement(document.querySelector('#btLook4App'));
     }
 
     async function fillForm(config) {
+        const SELECTOR = {
+            category: 'Category',
+            subCategory: 'SubCategory',
+            gnibNumber: 'GNIBNo',
+            confirmTerms: 'UsrDeclaration',
+            salutation: 'Salutation',
+            givenName: 'GivenName',
+            middleName: 'MidName',
+            surName: 'SurName',
+            dob: 'DOB',
+            nationality: 'Nationality',
+            email: 'Email',
+            confirmEmail: 'EmailConfirm',
+            isFamily: 'FamAppYN',
+            familyNumber: 'FamAppNo',
+            hasDocument: 'PPNoYN',
+            documentNumber: 'PPNo',
+            noDocumentReason: 'PPReason',
+        };
+
+        await setInputElementValue(document.getElementById(SELECTOR.category), config.category);
+        await setInputElementValue(document.getElementById(SELECTOR.subCategory), config.subCategory);
+        if (config.gnibCardNumber) {
+            await setInputElementValue(document.getElementById(SELECTOR.gnibNumber), config.gnibCardNumber);
+        }
+        const confirmElement = document.getElementById(SELECTOR.confirmTerms);
+        if (!confirmElement.checked) {
+            await clickElement(document.getElementById(SELECTOR.confirmTerms));
+        }
+        await setInputElementValue(document.getElementById(SELECTOR.salutation), config.applicant.salutation);
+        await setInputElementValue(document.getElementById(SELECTOR.givenName), config.applicant.givenName);
+        if (config.applicant.middleName) {
+            await setInputElementValue(document.getElementById(SELECTOR.middleName), config.applicant.middleName);
+        }
+        await setInputElementValue(document.getElementById(SELECTOR.surName), config.applicant.surName);
+        await setInputElementValue(document.getElementById(SELECTOR.dob), config.applicant.dob, { click: false });
+        await setInputElementValue(document.getElementById(SELECTOR.nationality), config.applicant.nationality);
+        await setInputElementValue(document.getElementById(SELECTOR.email), config.applicant.email);
+        await setInputElementValue(document.getElementById(SELECTOR.confirmEmail), config.applicant.email);
+        await setInputElementValue(document.getElementById(SELECTOR.isFamily), config.isFamilyApplication);
+        if (config.isFamilyApplication == 'Yes') {
+            await setInputElementValue(document.getElementById(SELECTOR.familyNumber), config.familyMembersCount);
+        }
+
+        await setInputElementValue(document.getElementById(SELECTOR.hasDocument), config.travelDocumentNumber ? 'Yes' : 'No');
+        if (config.travelDocumentNumber) {
+            await setInputElementValue(document.getElementById(SELECTOR.documentNumber), config.travelDocumentNumber);
+        } else {
+            await setInputElementValue(document.getElementById(SELECTOR.noDocumentReason), config.travelDocumentReason);
+        }
     }
 
     async function createUserInputForm() {
@@ -176,6 +227,10 @@
             }
             formSubmitBtn.disabled = true;
             var profile = configs[parseInt(profileSelect.value)];
+            profile.custom = {
+                preferredDate: dateToSelect.value,
+            };
+
             await fillForm(profile);
             formSubmitBtn.disabled = false;
         });
