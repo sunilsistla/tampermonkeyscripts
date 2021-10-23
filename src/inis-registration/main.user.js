@@ -78,7 +78,6 @@
         Object.assign(userInputForm.style, {
             position: 'fixed',
             backgroundColor: 'white',
-            fontSize: '10px',
             borderTop: '1px solid #eaeded',
             boxShadow: '0 1px 1px 0 rgb(0 28 36 / 30%), 1px 1px 1px 0 rgb(0 28 36 / 15%), -1px 1px 1px 0 rgb(0 28 36 / 15%)',
             right: '40px',
