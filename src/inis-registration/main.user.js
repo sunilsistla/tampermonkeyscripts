@@ -36,7 +36,7 @@
             !!profile.applicant.surName &&
             !!profile.applicant.dob &&
             !!profile.applicant.email &&
-            (!!profile.travelDocumentNumber || !!profile.travelDocumentReason);
+            (!!profile.applicant.travelDocumentNumber || !!profile.applicant.travelDocumentReason);
     }
 
     async function delay(ms) {
