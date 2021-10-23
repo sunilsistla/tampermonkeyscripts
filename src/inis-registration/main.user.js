@@ -83,6 +83,7 @@
             top: '120px',
             width: '280px',
             padding: '10px',
+            zIndex: 99999,
         });
         document.body.append(userInputForm);
 
