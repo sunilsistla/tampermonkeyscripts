@@ -133,8 +133,8 @@
 						<select value="0" required class="form-control" id="${getId('profile')}">
 							${configs.map((x, i) => `<option value="${i}">${x.name}</option>`)}
 						</select>
-					<div>
-						<small id="${getId('profile-description')}" class="text-muted"></small>
+					<div style="line-height: 14px; margin-top: 5px;">
+						<small id="${getId('profile-description')}" style="font-size: 10px;" class="text-muted"></small>
 					</div>
 					</div>
 				</div>
@@ -163,10 +163,8 @@
             var profile = configs[parseInt(event.target.value)];
             profileHelpSpan.innerHTML = '';
             profileHelpSpan.insertAdjacentHTML('beforeEnd',
-                `${profile.applicant.givenName}, ${profile.applicant.surName}<br/>
-            ${profile.applicant.gnib}, ${profile.applicant.surName}<br/>
-            ${profile.applicant.travelDocumentNumber || 'No Travel Document'}
-            `);
+                `${profile.applicant.givenName}, ${profile.applicant.surName} | ${profile.gnibCardNumber} | ${profile.applicant.travelDocumentNumber || 'No Travel Document'}`
+            );
         });
         formSubmitBtn.addEventListener('click', async function () {
             if (!userForm.checkValidity()) {
