@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>INIS Registration Helper</title>
+    <link href="/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="root" class="container">
+        <h2 id="introduction">Introduction
+            <small>
+                <a class="text-muted" href="#introduction">
+                    <ion-icon name="link-outline"></ion-icon>
+                </a>
+            </small>
+        </h2>
+        <div>
+            This plugin helps you to auto fill the INIS appointment registration form.
+        </div>
+        <div>
+            You can setup multiple profiles and pick one to auto fill.
+        </div>
+        <hr />
+        <h2 id="setup">Setup
+            <small>
+                <a class="text-muted" href="#setup">
+                    <ion-icon name="link-outline"></ion-icon>
+                </a>
+            </small>
+        </h2>
+        <div>
+            <ol>
+                <li>
+                    This plugin runs on TamperMonkey. Install
+                    <a target="_blank" href="https://www.tampermonkey.net/">
+                        TamperMonkey Plugin
+                    </a> on your browser. Restart browser after installation.
+                </li>
+                <li>Launch <a target="_blank" href="/inis-registration/main.user.js">INIS registration helper</a> and click install.</li>
+                <li>Launch <a target="_blank" href="/inis-registration/profile.user.js">INIS Profiles</a> and click install.
+                    <div class="text-danger">
+                        <b>NOTE:</b> Refer <a href="#configuration">Configuration</a> to setup your profile. Re-installing this script will reset configuration. Save your existing profiles before re-installing.
+                    </div>
+                </li>
+                <li>GoTo <a target="_blank" href="https://burghquayregistrationoffice.inis.gov.ie/">INIS Registration portal</a> and click <b>"Make appointment"</b>to start.</li>
+            </ol>
+        </div>
+        <hr />
+        <h2 id="configuration">Configuration
+            <small>
+                <a class="text-muted" href="#configuration">
+                    <ion-icon name="link-outline"></ion-icon>
+                </a>
+            </small>
+        </h2>
+        <div>
+            <p>
+                This script requires one time setup for every profile/ application.
+            </p>
+            <ol>
+                <li>
+                    Click on Tamper Monkey Extension in your browser. Click on edit icon on "INIS Profiles" item.
+                    <div>
+                        <small>Follow <a href="https://www.youtube.com/watch?v=8tyjJD65zws&t=63s">Tamper Monkey tutorial</a> and update profile information in <b>INIS profiles</b> script.</small>
+                    </div>
+                </li>
+                <li>Fill the fields as per the form in <a target="_blank" href="https://burghquayregistrationoffice.inis.gov.ie/">INIS Registration portal</a>.</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script src="/main.js"></script>
+</body>
+
+</html>

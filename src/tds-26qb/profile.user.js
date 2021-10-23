@@ -5,7 +5,7 @@
 // @description  TDS 26QB profiles
 // @author       sunilkumar.sistla@gmail.com
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew*
-// @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/data.user.js
+// @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/profile.user.js
 // @grant        none
 // ==/UserScript==
 

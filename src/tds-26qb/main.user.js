@@ -16,13 +16,13 @@
 	'use strict';
 	// Your code here...
 
-  GM_registerMenuCommand('Help', function() {
-    window.open('https://tmscripts-ssk.netlify.app/tds-26qb/' ,'_blank');
-  });
-  
-  if(window.location.href.indexOf('https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet') === -1) {
-    return;
-  }
+	GM_registerMenuCommand('Help', function () {
+		window.open('https://tmscripts-ssk.netlify.app/tds-26qb/', '_blank');
+	});
+
+	if (window.location.href.indexOf('https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet') === -1) {
+		return;
+	}
 	var configs;
 	var delayInterval = 50;
 
