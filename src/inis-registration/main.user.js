@@ -128,7 +128,7 @@
             'beforeEnd',
             `<form id="${getId('form')}" onsubmit="javascript:void(0)">
 				<div class="form-group" style="margin-bottom: 10px">
-					<div class="control-label">Select profile</div>
+					<div class="control-label" style="font-size: 13px;">Select profile</div>
 					<div>
 						<select value="0" required class="form-control" id="${getId('profile')}">
 							${configs.map((x, i) => `<option value="${i}">${x.name}</option>`)}
@@ -139,7 +139,7 @@
 					</div>
 				</div>
 				<div class="form-group" style="margin-bottom: 10px">
-					<div class="control-label">Preferred date</div>
+					<div class="control-label" style="font-size: 13px;">Preferred date</div>
 					<div>
 						<input pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
 						placeholder="${todayString}" id="${getId('preferred-date')}" />
