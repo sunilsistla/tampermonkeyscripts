@@ -37,23 +37,23 @@ const TravelDocumentReason = {
 
 const PROFILES = [
 	{
-		name: 'Profile 1', // Unique name to easily identify a profile
+		name: 'Sunil Sistla', // Unique name to easily identify a profile
         category: Category.All,
         subCategory: SubCategory.All,
-        gnibCardNumber: 000000,
+        gnibCardNumber: 981597,
         salutation: Salutation.Mr,
         applicant: {
-            givenName: '',
+            givenName: 'Sunil Kumar',
             middleName: '',
-            surName: '',
-            dob: '', // DD/MM/YYYY format
-            email: '',
-            isFamilyApplication: FamilyApplication.No, // Yes/ No
-            familyMembersCount: 0,
-            travelDocumentNumber: '', // Your travel document number
+            surName: 'Sistla',
+            dob: '18/08/1991', // DD/MM/YYYY format
+            email: 'sunilkumar.sistla@gmail.com',
+            isFamilyApplication: FamilyApplication.Yes, // Yes/ No
+            familyMembersCount: 2,
+            travelDocumentNumber: 'V8375932', // Your travel document number
             travelDocumentReason: TravelDocumentReason.None,
         },
-        nationality: '',
+        nationality: 'India, Republic of',
 	},
 ];
 
