@@ -78,6 +78,7 @@
         Object.assign(userInputForm.style, {
             position: 'fixed',
             backgroundColor: 'white',
+            fontSize: '10px',
             borderTop: '1px solid #eaeded',
             boxShadow: '0 1px 1px 0 rgb(0 28 36 / 30%), 1px 1px 1px 0 rgb(0 28 36 / 15%), -1px 1px 1px 0 rgb(0 28 36 / 15%)',
             right: '40px',
@@ -91,7 +92,7 @@
         // Header
         userInputForm.insertAdjacentHTML(
             'afterBegin',
-            `<h4 class="h4" style="border-bottom: 1px solid #eaeded; padding-bottom: 5px;">Payment Details
+            `<h4 class="h4" style="font-size: 18px; border-bottom: 1px solid #eaeded; padding-bottom: 5px;">Application details
 			<small><a target="_blank" rel="noreferrer" class="pull-right" href="${getResourceLink('')}">help</a></small>
 			</h4>`,
         );
@@ -127,7 +128,7 @@
         userInputForm.insertAdjacentHTML(
             'beforeEnd',
             `<form id="${getId('form')}" onsubmit="javascript:void(0)">
-				<div class="form-group">
+				<div class="form-group" style="margin-bottom: 10px">
 					<div class="control-label">Select profile</div>
 					<div>
 						<select value="0" required class="form-control" id="${getId('profile')}">
@@ -138,14 +139,14 @@
 					</div>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" style="margin-bottom: 10px">
 					<div class="control-label">Preferred date</div>
 					<div>
 						<input pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
 						placeholder="${todayString}" id="${getId('preferred-date')}" />
 					</div>
 				</div>
-				<div class="form-group text-right" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eaeded">
+				<div class="form-group text-right" style="margin-top: 10px; margin-bottom: 0; padding-top: 10px; border-top: 1px solid #eaeded">
 					<input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Fill form" />
 				</div>
 			</form>`,
@@ -163,7 +164,7 @@
             var profile = configs[parseInt(event.target.value)];
             profileHelpSpan.innerHTML = '';
             profileHelpSpan.insertAdjacentHTML('beforeEnd',
-                `${profile.applicant.givenName}, ${profile.applicant.surName} | ${profile.gnibCardNumber} | ${profile.applicant.travelDocumentNumber || 'No Travel Document'}`
+                `${profile.applicant.givenName}, ${profile.applicant.surName} | ${profile.gnibCardNumber} | ${profile.travelDocumentNumber || 'No Travel Document'}`
             );
         });
         formSubmitBtn.addEventListener('click', async function () {
