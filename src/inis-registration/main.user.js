@@ -155,6 +155,7 @@
     }
 
     async function createUserInputForm() {
+        const retryConfig = GM_getValue(GM_KEY);
         const getResourceLink = (resourcePath) => `https://tmscripts-ssk.netlify.app/inis-registration/${resourcePath}`;
         var getId = (...id) => ['inis_registration', ...id].filter(Boolean).join('_');
 
@@ -235,12 +236,13 @@
 				<div class="form-group" style="margin-bottom: 10px">
                     <div class="form-check">
                         <label class="form-check-label" style="font-size: 13px; font-weight: normal;">
-                            <input class="form-check-input" type="checkbox" value="" id="${getId('retry')}"> Retry until booked
+                            <input class="form-check-input" ${retryConfig.retry ? 'checked' : ''} type="checkbox" value="" id="${getId('retry')}"> Retry until booked
                         </label>
                     </div>
 				</div>
 				<div class="form-group text-right" style="margin-top: 10px; margin-bottom: 0; padding-top: 10px; border-top: 1px solid #eaeded">
-                    <input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Book" />
+                    <button id="${getId('stop')}" type="button" class="btn btn-default">Stop</button>
+                    <button id="${getId('fill-form')}" type="submit" class="btn btn-primary">Book</button>
 				</div>
 			</form>`,
         );
@@ -252,6 +254,7 @@
         var profileHelpSpan = document.getElementById(getId('profile-description'));
         var formSubmitBtn = document.getElementById(getId('fill-form'));
         var shouldRetry = document.getElementById(getId('retry'));
+        var stopRetrying = document.getElementById(getId('stop'));
 
         // event handlers
         profileSelect.addEventListener('change', (event) => {
@@ -260,6 +263,14 @@
             profileHelpSpan.insertAdjacentHTML('beforeEnd',
                 `${profile.applicant.givenName}, ${profile.applicant.surName} | ${profile.gnibCardNumber} | ${profile.travelDocumentNumber || 'No Travel Document'}`
             );
+        });
+
+        stopRetrying.addEventListener('click', async function () {
+            const config = GM_getValue(GM_KEY);
+            GM_setValue(GM_KEY, {
+                ...config,
+                retry: false,
+            });
         });
 
         formSubmitBtn.addEventListener('click', async function (event) {
@@ -311,7 +322,13 @@
 
         console.log('auto fill form and book');
         const config = GM_getValue(GM_KEY);
-        GM_setValue(GM_KEY, { ...config, attempt: (config.attempt || 0) + 1 });
+        if (config.refresh) {
+            console.log('reloading the page');
+            GM_setValue(GM_KEY, { ...config, refresh: false });
+            window.location.reload();
+            return;
+        }
+        GM_setValue(GM_KEY, { ...config, refresh: true, attempt: (config.attempt || 0) + 1 });
 
         const profile = configs.find(x => x.gnibCardNumber === config.gnibCardNumber);
         if (!profile) {
@@ -346,6 +363,6 @@
         // act on a page only if the previous page is not recognized
         let isRecognized = false;
         isRecognized || (isRecognized == await redirectToFormOnFailure());
-        isRecognized ||(isRecognized == await autoFillForm());
+        isRecognized || (isRecognized == await autoFillForm());
     }, 500);
 })();
