@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         INIS Profiles
 // @namespace    ssk/inis
-// @build      	 1
+// @versoion     2
 // @description  INIS registration profiles
 // @author       sunilkumar.sistla@gmail.com
 // @match        https://burghquayregistrationoffice.inis.gov.ie/*
@@ -36,6 +36,25 @@ const TravelDocumentReason = {
 };
 
 const PROFILES = [
+	{
+		name: 'Jyothy Kundurthy', // Unique name to easily identify a profile
+        category: Category.All,
+        subCategory: SubCategory.All,
+        gnibCardNumber: '994021',
+        travelDocumentNumber: 'V6624737', // Your travel document number
+        travelDocumentReason: TravelDocumentReason.None,
+        isFamilyApplication: FamilyApplication.No, // Yes/ No
+        familyMembersCount: 1,
+        applicant: {
+            salutation: Salutation.Ms,
+            givenName: 'Sri Siva Jyothy',
+            middleName: '',
+            surName: 'Kundurthy',
+            dob: '09/04/1991', // DD/MM/YYYY format
+            nationality: 'India, Republic of',
+            email: 'jyothikundurthy@gmail.com',
+        },
+	},
 	{
 		name: 'Sunil Sistla', // Unique name to easily identify a profile
         category: Category.All,
