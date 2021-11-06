@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         INIS Profiles
 // @namespace    ssk/inis
-// @versoion     2
+// @version      2
 // @description  INIS registration profiles
 // @author       sunilkumar.sistla@gmail.com
 // @match        https://burghquayregistrationoffice.inis.gov.ie/*
