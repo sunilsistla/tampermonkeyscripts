@@ -3,8 +3,8 @@
 // @description  Autofills TDS form 26QB.
 // @author       sunilkumar.sistla@gmail.com
 // @namespace    ssk/tds
-// @version      0.5
-// @build        5
+// @version      0.6
+// @build        6
 // @include      /.*/
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
@@ -187,6 +187,7 @@
 			taxDate: 'select[name="deductionDay"]',
 			taxMonth: 'select[name="deductionMonth"]',
 			taxYear: 'select[name="deductionYear"]',
+			taxRate: 'select[name="tds_higher_rate"]',
 			totalAmount: 'input[name="value_entered_user"]',
 			basicTax: 'input[name="TDS_amt"]',
 			tdsRate: 'input[name="TDS_rate"]',
@@ -221,6 +222,7 @@
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.taxDate), aggD);
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.taxMonth), aggM - 1);
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.taxYear), aggY);
+		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.taxRate), config.payment.higherTaxRate ? 'Yes' : 'No');
 
 		var bd = amountBreakdown(config.payment.amount);
 		var prms = [];
@@ -344,6 +346,12 @@
 					<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
 					placeholder="${todayString}" id="${getId('tax-date')}" />
 				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" disabled name=${getId('higher-tax-rate')} id="${getId('higher-tax-rate')}">
+					<label class="form-check-label" for="${getId('higher-tax-rate')}">
+						Higher Tax rate?
+					</label>
+				</div>
 				<div class="form-group text-right" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eaeded">
 					<input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Fill form" />
 				</div>
@@ -358,6 +366,7 @@
 		var paymentAmountInput = document.getElementById(getId('amount'));
 		var paymentDateInput = document.getElementById(getId('date'));
 		var paymentTaxDateInput = document.getElementById(getId('tax-date'));
+		var higherTaxRateCheckbox = document.getElementById(getId('higher-tax-rate'));
 		var formSubmitBtn = document.getElementById(getId('fill-form'));
 
 		// event handlers
@@ -381,6 +390,7 @@
 				dateOfPayment: paymentDateInput.value.trim(),
 				dateOfTax: paymentTaxDateInput.value.trim(),
 				amount: parseFloat(paymentAmountInput.value),
+				higherTaxRate: higherTaxRateCheckbox.checked
 			};
 			profile.payment = payment;
 			await fillForm(profile);
