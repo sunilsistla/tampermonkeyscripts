@@ -3,9 +3,8 @@
 // @description  Autofills TDS form 26QB.
 // @author       sunilkumar.sistla@gmail.com
 // @namespace    ssk/tds
-// @version      0.6
-// @build        6
-// @include      /.*/
+// @version      1
+// @match        https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet*
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @grant        GM_registerMenuCommand
@@ -233,7 +232,7 @@
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.totalAmount), config.payment.amount);
 		var tdsValue = (config.payment.amount * Number(document.querySelector(PAYMENT_SELECTOR.tdsRate).value)) / 100;
 		var tdsAmount = Math.floor(tdsValue * 100) / 100;
-		var totalTds = parseFloat(Math.round(tdsAmount * 100) / 100).toFixed(2);
+		var totalTds = Math.ceil(Math.round(tdsAmount * 100) / 100);
 
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.basicTax), totalTds);
 	}
@@ -265,14 +264,16 @@
 			left: '10px',
 			top: '10px',
 			width: '280px',
-			padding: '10px',
+			padding: '10px 10px 0',
 		});
 		document.body.append(userInputForm);
 
 		// Header
 		userInputForm.insertAdjacentHTML(
 			'afterBegin',
-			`<h4 class="h4" style="border-bottom: 1px solid #eaeded; padding-bottom: 5px;">Payment Details
+			`<h4 class="h4" style="border-bottom: 1px solid #eaeded; padding-bottom: 5px; margin-top: 0px;">
+			<button id="${getId('expand-collapse-btn')}" style="border: none; margin: 0 -3px; padding: 3px 5px; font-size: 14px;" type="button" class="btn btn-default btn-sm fa fa-chevron-up"></button>
+			Payment Details
 			<small><a target="_blank" rel="noreferrer" class="pull-right" href="${getResourceLink('')}">help</a></small>
 			</h4>`,
 		);
@@ -343,15 +344,14 @@
 				</div>
 				<div class="form-group">
 					<div class="control-label">Date of Tax<div>
-					<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
-					placeholder="${todayString}" id="${getId('tax-date')}" />
+					<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control" placeholder="${todayString}" id="${getId('tax-date')}" />
 				</div>
+				<!--
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" disabled name=${getId('higher-tax-rate')} id="${getId('higher-tax-rate')}">
-					<label class="form-check-label" for="${getId('higher-tax-rate')}">
-						Higher Tax rate?
-					</label>
+					<label class="form-check-label" for="${getId('higher-tax-rate')}">Higher Tax rate?</label>
 				</div>
+				-->
 				<div class="form-group text-right" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #eaeded">
 					<input id="${getId('fill-form')}" type="submit" class="btn btn-primary" value="Fill form" />
 				</div>
@@ -368,6 +368,7 @@
 		var paymentTaxDateInput = document.getElementById(getId('tax-date'));
 		var higherTaxRateCheckbox = document.getElementById(getId('higher-tax-rate'));
 		var formSubmitBtn = document.getElementById(getId('fill-form'));
+		var expandCollapseBtn = document.getElementById(getId('expand-collapse-btn'));
 
 		// event handlers
 		profileSelect.addEventListener('change', (event) => {
@@ -390,12 +391,18 @@
 				dateOfPayment: paymentDateInput.value.trim(),
 				dateOfTax: paymentTaxDateInput.value.trim(),
 				amount: parseFloat(paymentAmountInput.value),
-				higherTaxRate: higherTaxRateCheckbox.checked
+				higherTaxRate: !!(higherTaxRateCheckbox && higherTaxRateCheckbox.checked)
 			};
 			profile.payment = payment;
 			await fillForm(profile);
 			formSubmitBtn.disabled = false;
 		});
+		expandCollapseBtn.addEventListener('click', function() {
+			userForm.classList.toggle('hidden');
+			expandCollapseBtn.classList.toggle('fa-chevron-down');
+			expandCollapseBtn.classList.toggle('fa-chevron-up');
+		});
+
 
 		// init
 		profileSelect.dispatchEvent(new Event('change'));
