@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         TDS 26QB Profiles
+// @name         TDS - Anil
 // @namespace    ssk/tds
-// @version      3
+// @version      1
 // @description  TDS 26QB profiles
-// @author       sunilkumar.sistla@gmail.com
+// @author       anilksistla@gmail.com
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew*
-// @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/profiles/eden-c1617.user.js
-// @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/profiles/eden-c1617.user.js
+// @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/profiles/anilsistla.user.js
+// @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/profiles/anilsistla.user.js
 // @grant        none
 // ==/UserScript==
 
