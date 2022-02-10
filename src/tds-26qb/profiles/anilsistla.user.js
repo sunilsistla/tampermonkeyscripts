@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         TDS - Anil
+// @name         TDS Profiles - Anil
 // @namespace    ssk/tds
 // @version      0
 // @description  TDS 26QB profiles
