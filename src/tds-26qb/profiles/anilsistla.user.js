@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TDS - Anil
 // @namespace    ssk/tds
-// @version      1
+// @version      0
 // @description  TDS 26QB profiles
 // @author       anilksistla@gmail.com
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew*
@@ -12,54 +12,54 @@
 
 const PROFILES = [
 	{
-		name: 'Eden C-1617',
+		name: '',
 		taxApplicable: '0021',
 		statusOfSeller: 'Indian',
 		multiplePurchasers: 'No',
 		multipleSellers: 'No',
 		purchaser: {
-			name: 'Sunil Kumar Sistla',
-			PAN: 'DSYPS6938A',
+			name: '',
+			PAN: '',
 			address: {
-				line1: '1-9-485/98, 1 Floor',
-				line2: 'Lalitha Nagar',
-				road: 'Vidya Nagar',
+				line1: '',
+				line2: '',
+				road: '',
 				city: 'Hyderabad',
 				state: 'TELANGANA',
 				pin: '500044',
 			},
-			email: 'sunilkumar.sistla@gmail.com',
-			phone: '9000219735',
+			email: '',
+			phone: '',
 		},
 		seller: {
-			name: 'Mysore Projects',
-			PAN: 'AAGCM7611Q',
+			name: '',
+			PAN: '',
 			address: {
-				line1: 'World Trade Center',
-				line2: '29, 30 Floor',
-				road: 'Malleswaram',
-				city: 'Bengaluru',
-				state: 'Karnataka',
-				pin: '560055',
+				line1: '',
+				line2: '',
+				road: '',
+				city: '',
+				state: '',
+				pin: '',
 			},
-			email: 'enquiry@brigadegroup.com',
-			phone: '8041379200',
+			email: '',
+			phone: '',
 		},
 		property: {
-			name: 'Brigade Cornerstone Utopia, C-1617',
+			name: '',
 			type: 'Building',
 			address: {
-				line1: 'BrigadeCornerstone Utopia',
-				line2: 'Eden C-1617',
-				road: 'Varthur Whitefield',
-				city: 'Bengaluru',
-				state: 'Karnataka',
-				pin: '560087',
+				line1: '',
+				line2: '',
+				road: '',
+				city: 'Hyderabad',
+				state: '',
+				pin: '',
 			},
 		},
 		agreement: {
-			date: '29-03-2021',
-			totalValue: '6600545',
+			date: 'DD-MM-YYYY',
+			totalValue: '',
 		},
 	},
 ];
