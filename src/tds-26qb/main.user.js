@@ -3,7 +3,7 @@
 // @description  Autofills TDS form 26QB.
 // @author       sunilkumar.sistla@gmail.com
 // @namespace    ssk/tds
-// @version      1
+// @version      2
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew/PopServlet*
 // @downloadUrl  https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
 // @updateUrl    https://tmscripts-ssk.netlify.app/tds-26qb/main.user.js
@@ -192,6 +192,10 @@
 			tdsRate: 'input[name="TDS_rate"]',
 			interest: 'input[name="interest"]',
 			fee: 'input[name="fee"]',
+            isHigherStampDutyConsideration: '[name="higherstampdutyconsideration"]',
+			stampDuty: 'input[name="stampdutyvalue"]',
+			isLastInstallment: 'select[name="lastinstallment"]',
+            previousPaymentsTotal: 'input[name="totalamountinpreviousinstallment"]',
 		};
 
 		await setInputElementValue(document.querySelector(PROPERTY_SELECTOR.type), config.property.type);
@@ -222,6 +226,15 @@
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.taxMonth), aggM - 1);
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.taxYear), aggY);
 		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.taxRate), config.payment.higherTaxRate ? 'Yes' : 'No');
+
+		await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.isLastInstallment), config.agreement.isLastInstallment);
+		if (config.agreement.isLastInstallment === 'Yes') {
+            await delay(200);
+			await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.stampDuty), config.agreement.stampDuty);
+			await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.isHigherStampDutyConsideration), config.agreement.isHigherStampDutyConsideration);
+		}
+        await setInputElementValue(document.querySelector(PAYMENT_SELECTOR.previousPaymentsTotal), config.agreement.previousPaymentsTotal);
+
 
 		var bd = amountBreakdown(config.payment.amount);
 		var prms = [];
@@ -339,12 +352,12 @@
 					<div class="control-label">Date of Payment</div>
 					<div>
 						<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control"
-						placeholder="${todayString}" id="${getId('date')}" />
+						placeholder="${todayString}" id="${getId('date')}" value="${todayString}" />
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="control-label">Date of Tax<div>
-					<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control" placeholder="${todayString}" id="${getId('tax-date')}" />
+					<input required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" class="form-control" placeholder="${todayString}" id="${getId('tax-date')}" value="${todayString}" />
 				</div>
 				<!--
 				<div class="form-check">
@@ -375,6 +388,7 @@
 			var profile = configs[parseInt(event.target.value)];
 			profileHelpSpan.innerHTML = '';
 			profileHelpSpan.insertAdjacentHTML('beforeEnd', profile.property.name);
+			paymentAmountInput.value = profile.installmentAmount;
 		});
 		paymentDateInput.addEventListener('change', (event) => {
 			paymentTaxDateInput.value = event.target.value;

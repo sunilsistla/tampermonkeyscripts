@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TDS - Sunil
 // @namespace    ssk/tds
-// @version      3
+// @version      4
 // @description  TDS 26QB profiles
 // @author       sunilkumar.sistla@gmail.com
 // @match        https://onlineservices.tin.egov-nsdl.com/etaxnew*
@@ -17,6 +17,7 @@ const PROFILES = [
 		statusOfSeller: 'Indian',
 		multiplePurchasers: 'No',
 		multipleSellers: 'No',
+		installmentAmount: 803000,
 		purchaser: {
 			name: 'Sunil Kumar Sistla',
 			PAN: 'DSYPS6938A',
@@ -59,7 +60,11 @@ const PROFILES = [
 		},
 		agreement: {
 			date: '29-03-2021',
-			totalValue: '6600545',
+			totalValue: '7468802',
+			stampDuty: '311065',
+			isLastInstallment: 'Yes',
+			isHigherStampDutyConsideration: 'No',
+			previousPaymentsTotal: '6441753',
 		},
 	},
 ];
